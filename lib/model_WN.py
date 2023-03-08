@@ -51,8 +51,7 @@ class MeanOnlyBatchNormalization(Layer):
         mean = K.mean(inputs, axis=reduction_axes)
         normed_training = inputs - mean
 
-        self.add_update(K.moving_average_update(self.moving_mean, mean,
-                                                self.momentum), inputs)
+        self.add_update(K.moving_average_update(self.moving_mean, mean, self.momentum), inputs)
 
         return K.in_train_phase(normed_training,
                                 normalize_inference,
