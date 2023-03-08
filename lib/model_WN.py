@@ -4,7 +4,8 @@ from keras.layers.core import Activation
 
 from keras.models import Model
 from keras import backend as K
-from keras.engine.topology import Layer
+# from keras.engine.topology import Layer
+from tensorflow.keras.layers import Layer
 
 from keras import initializers
 from keras import regularizers
