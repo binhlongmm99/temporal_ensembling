@@ -1,15 +1,15 @@
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
-# from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
 
-def load_data(data_to_path):
+def load_data(data_to_path, num_test):
     """load data
     data should be compressed in npz. return arrays
     """
     load_data = np.load(data_to_path)
-    # data = {}
-    # data['train_x'], data['test_x'], data['train_y'], data['test_y'] = \
-    #                 train_test_split(load_data['images'], load_data['labels'], test_size=4000, random_state=42)
+    data = {}
+    data['train_x'], data['test_x'], data['train_y'], data['test_y'] = \
+                    train_test_split(load_data['images'], load_data['labels'], test_size=num_test, random_state=42)
     return data['train_x'], data['train_y'], data['test_x'], data['test_y']
 
 

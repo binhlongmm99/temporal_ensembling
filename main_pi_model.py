@@ -55,7 +55,7 @@ def main():
     trans_range = args.trans_range
 
     # Data Preparation
-    train_x, train_y, test_x, test_y = load_data(args.data_path)
+    train_x, train_y, test_x, test_y = load_data(args.data_path, num_test)
     ret_dic = split_supervised_train(train_x, train_y, num_labeled_train)
 
     ret_dic['test_x'] = test_x
