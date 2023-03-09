@@ -14,6 +14,7 @@ from lib.utils import load_data, split_supervised_train, make_train_test_dataset
 def parse_args():
     parser = argparse.ArgumentParser(description='Temporal Ensembling')
     parser.add_argument('--data_path', default='./data/cifar10.npz', type=str, help='path to dataset')
+    parser.add_argument('--data_size', default=60000, type=str, help='the number of data')
     parser.add_argument('--num_labeled_train', default=4000, type=int,
                         help='the number of labeled data used for supervised training componet')
     parser.add_argument('--num_test', default=10000, type=int,
@@ -41,6 +42,7 @@ def main():
     # Prepare args
     args = parse_args()
 
+    data_size = args.data_size
     num_labeled_train = args.num_labeled_train
     num_test = args.num_test
     ramp_up_period = args.ramp_up_period
@@ -57,12 +59,19 @@ def main():
     trans_range = args.trans_range
 
     # Data Preparation
-    train_x, train_y, test_x, test_y = load_data(args.data_path)
+    train_x, train_y, test_x, test_y = load_data(args.data_path, data_size, num_test)
     ret_dic = split_supervised_train(train_x, train_y, num_labeled_train)
+    for keys, values in ret_dic.items():
+        print(keys)
+        print(values.shape)
+    print()
 
     ret_dic['test_x'] = test_x
     ret_dic['test_y'] = test_y
     ret_dic = make_train_test_dataset(ret_dic, num_class)
+    for keys, values in ret_dic.items():
+        print(keys)
+        print(values.shape)
 
     unsupervised_target = ret_dic['unsupervised_target']
     supervised_label = ret_dic['supervised_label']
@@ -94,10 +103,14 @@ def main():
         from lib.model_BN import build_model
         optimizer = Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999)
 
+    # from lib.model_BN import build_model
+    # optimizer = Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999)
+
     model = build_model(num_class=num_class)
     model.compile(optimizer=optimizer,
                   loss=semi_supervised_loss(num_class))
 
+    # model.metrics_tensors = []
     model.metrics_tensors += model.outputs
     model.summary()
 

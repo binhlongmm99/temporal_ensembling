@@ -1,11 +1,12 @@
-from keras.layers import Input, Conv2D, MaxPooling2D, LeakyReLU, Dropout, GlobalAveragePooling2D, Dense, concatenate
+from keras.layers import Input, Conv2D, MaxPooling2D, LeakyReLU, Dropout, \
+                            GlobalAveragePooling2D, Dense, concatenate
 from keras.layers.noise import GaussianNoise
 from keras.layers.core import Activation
 
 from keras.models import Model
 from keras import backend as K
-# from keras.engine.topology import Layer
-from tensorflow.keras.layers import Layer
+from keras.engine.topology import Layer
+# from tensorflow.keras.layers import Layer
 
 from keras import initializers
 from keras import regularizers
@@ -51,7 +52,8 @@ class MeanOnlyBatchNormalization(Layer):
         mean = K.mean(inputs, axis=reduction_axes)
         normed_training = inputs - mean
 
-        self.add_update(K.moving_average_update(self.moving_mean, mean, self.momentum), inputs)
+        self.add_update(K.moving_average_update(self.moving_mean, mean,
+                                                     self.momentum), inputs)
 
         return K.in_train_phase(normed_training,
                                 normalize_inference,
