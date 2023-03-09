@@ -14,7 +14,7 @@ from lib.utils import load_data, split_supervised_train, make_train_test_dataset
 def parse_args():
     parser = argparse.ArgumentParser(description='Temporal Ensembling')
     parser.add_argument('--data_path', default='./data/cifar10.npz', type=str, help='path to dataset')
-    parser.add_argument('--data_size', default=60000, type=str, help='the number of data')
+    parser.add_argument('--data_size', default=60000, type=int, help='the number of data')
     parser.add_argument('--num_labeled_train', default=4000, type=int,
                         help='the number of labeled data used for supervised training componet')
     parser.add_argument('--num_test', default=10000, type=int,
